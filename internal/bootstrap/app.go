@@ -35,7 +35,7 @@ func New() (*Application, error) {
 	}
 	
 	// init router
-	router := httpRouter.New()
+	router := httpRouter.New(logg)
 	srv := httpServer.New(cfg.Server, router)
 
 	// init application
