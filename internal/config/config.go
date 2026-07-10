@@ -1,5 +1,7 @@
 package config
 
+import "time"
+
 type Config struct {
 	App      AppConfig
 	Server   ServerConfig
@@ -15,10 +17,12 @@ type AppConfig struct {
 }
 
 type ServerConfig struct {
-	Host         string
-	Port         int
-	ReadTimeout  int
-	WriteTimeout int
+	Host string
+	Port int
+
+	ReadTimeout  time.Duration
+	WriteTimeout time.Duration
+	IdleTimeout  time.Duration
 }
 
 type DatabaseConfig struct {

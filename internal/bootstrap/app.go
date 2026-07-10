@@ -1,11 +1,12 @@
 package bootstrap
 
 import (
-	"fmt"
 	"log/slog"
+	"net/http"
 
 	"github.com/gin-gonic/gin"
 	"github.com/lunadiotic/shopex-go/internal/config"
+	"github.com/lunadiotic/shopex-go/internal/delivery/http/server"
 	"github.com/lunadiotic/shopex-go/internal/infrastructure/logger"
 )
 
@@ -13,6 +14,7 @@ type Application struct {
 	config *config.Config
 	logger *slog.Logger
 	router *gin.Engine
+	server *http.Server
 }
 
 func New() (*Application, error) {
@@ -30,21 +32,21 @@ func New() (*Application, error) {
 	
 	// init router
 	router := gin.New()
+	srv := server.New(cfg.Server, router)
 
 	// init application
 	app := &Application{
 		config: cfg,
 		logger: logg,
 		router: router,
+		server: srv,
 	}
 
 	return app, nil
 }
 
 func (a *Application) Run() error {
-	a.logger.Info("starting the application...")
+	a.logger.Info("starting the application...", "address", a.server.Addr)
 
-	return a.router.Run(
-		fmt.Sprintf("%s:%d", a.config.Server.Host, a.config.Server.Port),
-	)
+	return a.server.ListenAndServe()
 }
