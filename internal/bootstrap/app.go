@@ -9,16 +9,15 @@ import (
 	"os/signal"
 	"syscall"
 
-	"github.com/gin-gonic/gin"
 	"github.com/lunadiotic/shopex-go/internal/config"
-	httpserver "github.com/lunadiotic/shopex-go/internal/delivery/http/server"
+	httpRouter "github.com/lunadiotic/shopex-go/internal/delivery/http/router"
+	httpServer "github.com/lunadiotic/shopex-go/internal/delivery/http/server"
 	"github.com/lunadiotic/shopex-go/internal/infrastructure/logger"
 )
 
 type Application struct {
 	config *config.Config
 	logger *slog.Logger
-	router *gin.Engine
 	server *http.Server
 }
 
@@ -36,14 +35,13 @@ func New() (*Application, error) {
 	}
 	
 	// init router
-	router := gin.New()
-	srv := httpserver.New(cfg.Server, router)
+	router := httpRouter.New()
+	srv := httpServer.New(cfg.Server, router)
 
 	// init application
 	app := &Application{
 		config: cfg,
 		logger: logg,
-		router: router,
 		server: srv,
 	}
 
