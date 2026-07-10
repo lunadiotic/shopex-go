@@ -1,0 +1,32 @@
+# Binaries
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+/bin
+/dist
+
+
+# Test output
+*.test
+*.out
+coverage.out
+
+# Go workspace
+go.work
+go.work.sum
+
+# Environment variables
+.env
+
+# OS specific
+.DS_Store
+.idea/
+.vscode/
+
+# temp
+tmp/
+
+# Docker volumes (if any local directories are used for volume mapping)
+data/
