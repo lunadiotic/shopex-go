@@ -1,10 +1,10 @@
 package main
 
 import (
-	"fmt"
 	"log"
 
 	"github.com/lunadiotic/shopex-go/internal/config"
+	"github.com/lunadiotic/shopex-go/internal/infrastructure/logger"
 )
 
 func main() {
@@ -13,7 +13,13 @@ func main() {
 		log.Fatal(err)
 	}
 
-	fmt.Println(cfg.App.Name)
-	fmt.Println(cfg.App.Version)
-	fmt.Println(cfg.Server.Port)
+	// init logger
+	logg := logger.New(cfg.Logger.Level)
+	logg.Info("starting the application...")
+	logg.Info(
+		"configuration loaded",
+		"app", cfg.App.Name,
+		"version", cfg.App.Version,
+		"environment", cfg.App.Env,
+	)
 }
