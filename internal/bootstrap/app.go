@@ -10,6 +10,8 @@ import (
 	"syscall"
 
 	"github.com/lunadiotic/shopex-go/internal/config"
+	"github.com/lunadiotic/shopex-go/internal/delivery/http/handler"
+	"github.com/lunadiotic/shopex-go/internal/delivery/http/middleware"
 	httpRouter "github.com/lunadiotic/shopex-go/internal/delivery/http/router"
 	httpServer "github.com/lunadiotic/shopex-go/internal/delivery/http/server"
 	"github.com/lunadiotic/shopex-go/internal/infrastructure/logger"
@@ -34,8 +36,17 @@ func New() (*Application, error) {
 		return nil, err
 	}
 	
+	// init middleware
+	loggerMiddleware := middleware.Logger(logg)
+
+	// init health handler
+	healthHandler := handler.NewHealthHandler()
+	
 	// init router
-	router := httpRouter.New(logg)
+	router := httpRouter.New(
+		healthHandler,
+		loggerMiddleware,
+	)
 	srv := httpServer.New(cfg.Server, router)
 
 	// init application
