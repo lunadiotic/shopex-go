@@ -6,3 +6,21 @@ app:
 server:
   host: 0.0.0.0
   port: 8080
+  readTimeout: 10
+  writeTimeout: 10
+
+database:
+  host: localhost
+  port: 5432
+  user: postgres
+  password: postgres
+  name: shopex
+  sslmode: disable
+  timezone: Asia/Jakarta
+
+jwt:
+  secret: secret
+  expireHour: 24
+
+logger:
+  level: debug
