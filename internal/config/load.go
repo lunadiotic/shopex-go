@@ -20,5 +20,10 @@ func Load() (*Config, error) {
 		return nil, err
 	}
 
+	cfg.Server.ReadTimeout = viper.GetDuration("server.readTimeout")
+	cfg.Server.WriteTimeout = viper.GetDuration("server.writeTimeout")
+	cfg.Server.IdleTimeout = viper.GetDuration("server.idleTimeout")
+	cfg.Server.ShutdownTimeout = viper.GetDuration("server.shutdownTimeout")
+
 	return cfg, nil
 }

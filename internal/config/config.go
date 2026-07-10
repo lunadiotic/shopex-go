@@ -23,6 +23,7 @@ type ServerConfig struct {
 	ReadTimeout  time.Duration
 	WriteTimeout time.Duration
 	IdleTimeout  time.Duration
+	ShutdownTimeout time.Duration
 }
 
 type DatabaseConfig struct {

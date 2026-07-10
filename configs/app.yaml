@@ -9,6 +9,7 @@ server:
   readTimeout: 10s
   writeTimeout: 10s
   idleTimeout: 60s
+  shutdownTimeout: 10s
 
 database:
   host: localhost
