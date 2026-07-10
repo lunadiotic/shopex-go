@@ -5,7 +5,7 @@ import (
 	"os"
 )
 
-func New(level string) *slog.Logger {
+func New(level string) (*slog.Logger, error) {
 	var logLevel slog.Level
 
 	switch level {
@@ -23,5 +23,5 @@ func New(level string) *slog.Logger {
 		Level: logLevel,
 	})
 
-	return slog.New(handler)
+	return slog.New(handler), nil
 }

@@ -3,23 +3,16 @@ package main
 import (
 	"log"
 
-	"github.com/lunadiotic/shopex-go/internal/config"
-	"github.com/lunadiotic/shopex-go/internal/infrastructure/logger"
+	"github.com/lunadiotic/shopex-go/internal/bootstrap"
 )
 
 func main() {
-	cfg, err := config.Load()
+	app, err := bootstrap.New()
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	// init logger
-	logg := logger.New(cfg.Logger.Level)
-	logg.Info("starting the application...")
-	logg.Info(
-		"configuration loaded",
-		"app", cfg.App.Name,
-		"version", cfg.App.Version,
-		"environment", cfg.App.Env,
-	)
+	if err := app.Run(); err != nil {
+		log.Fatal(err)
+	}
 }
