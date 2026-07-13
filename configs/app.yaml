@@ -19,6 +19,9 @@ database:
   name: shopex
   sslmode: disable
   timezone: Asia/Jakarta
+  maxOpenConns: 25
+  maxIdleConns: 10
+  connMaxLifetime: 60
 
 jwt:
   secret: secret

@@ -34,6 +34,10 @@ type DatabaseConfig struct {
 	Name     string
 	SSLMode  string
 	Timezone string
+
+	MaxOpenConns int
+	MaxIdleConns int
+	ConnMaxLifetime int
 }
 
 type JWTConfig struct {
