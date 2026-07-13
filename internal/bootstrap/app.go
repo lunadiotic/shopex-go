@@ -35,7 +35,11 @@ func New() (*Application, error) {
 	}
 	
 	// init container
-	container := container.New(logg)
+	container, err := container.New(cfg,logg)
+	if err != nil {
+		return nil, err
+	}
+	
 	router := container.Router
 
 	// init http server
