@@ -28,8 +28,9 @@ func New(cfg *config.Config, logger *slog.Logger) (*Container, error) {
 	loggerMiddleware := middleware.Logger(logger)
 
 	healthHandler := handler.NewHealthHandler()
+	userHandler := handler.NewUserHandler(&userUseCase.UseCase{},)
 
-	router := httpRouter.New(healthHandler, loggerMiddleware)
+	router := httpRouter.New(healthHandler, userHandler, loggerMiddleware)
 
 	db, err := gormPersistence.NewDatabase(cfg.Database)
 	if err != nil {
