@@ -32,7 +32,7 @@ func New(cfg *config.Config, logger *slog.Logger) (*Container, error) {
 
 	router := httpRouter.New(healthHandler, userHandler, loggerMiddleware)
 
-	db, err := gormPersistence.NewDatabase(cfg.Database)
+	db, err := gormPersistence.NewDatabase(cfg.Database, logger)
 	if err != nil {
 		return nil, err
 	}

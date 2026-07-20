@@ -27,7 +27,7 @@ type ServerConfig struct {
 }
 
 type DatabaseConfig struct {
-	Host     string
+	Host     string ``
 	Port     int
 	User     string
 	Password string

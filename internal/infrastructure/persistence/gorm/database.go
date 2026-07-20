@@ -2,6 +2,7 @@ package gorm
 
 import (
 	"fmt"
+	"log/slog"
 	"time"
 
 	"github.com/lunadiotic/shopex-go/internal/config"
@@ -9,7 +10,7 @@ import (
 	"gorm.io/gorm"
 )
 
-func NewDatabase(cfg config.DatabaseConfig) (*gorm.DB, error) {
+func NewDatabase(cfg config.DatabaseConfig, logger *slog.Logger) (*gorm.DB, error) {
 	dsn := fmt.Sprintf(
 		"host=%s port=%d user=%s password=%s dbname=%s sslmode=%s TimeZone=%s",
 		cfg.Host,
@@ -34,6 +35,13 @@ func NewDatabase(cfg config.DatabaseConfig) (*gorm.DB, error) {
 	sqlDB.SetMaxIdleConns(cfg.MaxIdleConns)
 	sqlDB.SetMaxOpenConns(cfg.MaxOpenConns)
 	sqlDB.SetConnMaxLifetime(time.Duration(cfg.ConnMaxLifetime) * time.Second)
+
+	if err := sqlDB.Ping(); err != nil {
+		logger.Error("Database connection failed", "error", err)
+		return nil, err
+	}
+
+	logger.Info("Database connection successful")
 
 	return db, nil
 }

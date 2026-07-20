@@ -1,6 +1,8 @@
 package config
 
 import (
+	"strings"
+
 	"github.com/spf13/viper"
 )
 
@@ -10,6 +12,10 @@ func Load() (*Config, error) {
 	viper.AddConfigPath("./configs")
 
 	viper.AutomaticEnv()
+	viper.SetEnvPrefix("SHOPEX")
+	viper.SetEnvKeyReplacer(
+		strings.NewReplacer(".", "_"),
+	)
 
 	if err := viper.ReadInConfig(); err != nil {
 		return nil, err
