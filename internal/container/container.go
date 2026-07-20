@@ -7,6 +7,7 @@ import (
 	"gorm.io/gorm"
 
 	gormPersistence "github.com/lunadiotic/shopex-go/internal/infrastructure/persistence/gorm"
+	"github.com/lunadiotic/shopex-go/internal/infrastructure/persistence/gorm/migration"
 	gormUserRepository "github.com/lunadiotic/shopex-go/internal/infrastructure/persistence/gorm/user"
 
 	"github.com/lunadiotic/shopex-go/internal/config"
@@ -33,6 +34,11 @@ func New(cfg *config.Config, logger *slog.Logger) (*Container, error) {
 	router := httpRouter.New(healthHandler, userHandler, loggerMiddleware)
 
 	db, err := gormPersistence.NewDatabase(cfg.Database, logger)
+	if err != nil {
+		return nil, err
+	}
+
+	err = migration.AutoMigrate(db, logger)
 	if err != nil {
 		return nil, err
 	}
