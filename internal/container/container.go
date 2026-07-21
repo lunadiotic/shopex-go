@@ -9,6 +9,7 @@ import (
 	gormPersistence "github.com/lunadiotic/shopex-go/internal/infrastructure/persistence/gorm"
 	"github.com/lunadiotic/shopex-go/internal/infrastructure/persistence/gorm/migration"
 	gormUserRepository "github.com/lunadiotic/shopex-go/internal/infrastructure/persistence/gorm/user"
+	bcryptHasher "github.com/lunadiotic/shopex-go/internal/infrastructure/security/bcrypt"
 
 	"github.com/lunadiotic/shopex-go/internal/config"
 	"github.com/lunadiotic/shopex-go/internal/delivery/http/handler"
@@ -44,7 +45,8 @@ func New(cfg *config.Config, logger *slog.Logger) (*Container, error) {
 	}
 
 	userRepository := gormUserRepository.NewRepository(db)
-	userUseCase := userUseCase.NewUseCase(userRepository)
+	hasher := bcryptHasher.NewHasher()
+	userUseCase := userUseCase.NewUseCase(userRepository, hasher)
 
 	return &Container{
 		Router: router, 
