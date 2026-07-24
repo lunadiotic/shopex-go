@@ -24,6 +24,10 @@ func NewUseCase(
 }
 
 func (uc *UseCase) Register(ctx context.Context, user *domain.User) error {
+	if err := uc.validate(user); err != nil {
+		return err
+	}
+
 	if user.ID == uuid.Nil {
 		user.ID = uuid.New()
 	}
